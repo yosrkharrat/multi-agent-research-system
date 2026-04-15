@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Agent Research System</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; padding: 2rem; }
+  h1 { font-size: 1.4rem; font-weight: 500; color: #a78bfa; margin-bottom: 0.25rem; }
+  p.subtitle { font-size: 0.85rem; color: #64748b; margin-bottom: 2rem; }
+
+  .input-row { display: flex; gap: 0.75rem; margin-bottom: 2rem; }
+  input[type=text] { flex: 1; padding: 0.65rem 1rem; background: #1e2130; border: 1px solid #2d3148; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; outline: none; }
+  input[type=text]:focus { border-color: #a78bfa; }
+  button { padding: 0.65rem 1.4rem; background: #7c3aed; border: none; border-radius: 8px; color: #fff; font-size: 0.9rem; cursor: pointer; transition: background 0.2s; }
+  button:hover { background: #6d28d9; }
+  button:disabled { background: #374151; cursor: not-allowed; }
+
+  .agents { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .agent-card { background: #1e2130; border: 1px solid #2d3148; border-radius: 10px; padding: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
+  .agent-card.running { border-color: #f59e0b; box-shadow: 0 0 12px #f59e0b33; }
+  .agent-card.done { border-color: #34d399; box-shadow: 0 0 8px #34d39922; }
+  .agent-card.error { border-color: #f87171; }
+
+  .agent-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .agent-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .icon-planner   { background: #312e81; }
+  .icon-researcher{ background: #065f46; }
+  .icon-critic    { background: #7c2d12; }
+  .icon-writer    { background: #1e3a5f; }
+  .agent-name { font-size: 0.85rem; font-weight: 500; color: #cbd5e1; }
+  .agent-status { font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4; min-height: 2.5rem; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #374151; margin-left: auto; transition: background 0.3s; }
+  .running .dot { background: #f59e0b; animation: pulse 1s infinite; }
+  .done .dot { background: #34d399; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .log { background: #1e2130; border: 1px solid #2d3148; border-radius: 10px; padding: 1rem; margin-bottom: 2rem; max-height: 160px; overflow-y: auto; font-size: 0.78rem; color: #64748b; font-family: monospace; }
+  .log-entry { padding: 2px 0; border-bottom: 1px solid #2d314822; }
+  .log-entry.highlight { color: #a78bfa; }
+
+  .report-box { background: #1e2130; border: 1px solid #2d3148; border-radius: 10px; padding: 1.5rem; display: none; }
+  .report-box h2 { font-size: 1rem; font-weight: 500; color: #a78bfa; margin-bottom: 1rem; }
+  .report-content { font-size: 0.88rem; line-height: 1.7; color: #cbd5e1; white-space: pre-wrap; }
+
+  @media (max-width: 900px) {
+    .agents { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Multi-Agent Research System</h1>
+<p class="subtitle">Planner -> Researcher -> Critic -> Writer . fully local via Ollama</p>
+
+<div class="input-row">
+  <input type="text" id="topic" placeholder="Enter a research topic..." value="How does quantum computing threaten modern encryption?">
+  <button id="runBtn" onclick="runResearch()">Research</button>
+</div>
+
+<div class="agents">
+  <div class="agent-card" id="card-planner">
+    <div class="agent-header">
+      <div class="agent-icon icon-planner">PLN</div>
+      <span class="agent-name">Planner</span>
+      <div class="dot"></div>
+    </div>
+    <div class="agent-status" id="status-planner">Waiting...</div>
+  </div>
+  <div class="agent-card" id="card-researcher">
+    <div class="agent-header">
+      <div class="agent-icon icon-researcher">RSH</div>
+      <span class="agent-name">Researcher</span>
+      <div class="dot"></div>
+    </div>
+    <div class="agent-status" id="status-researcher">Waiting...</div>
+  </div>
+  <div class="agent-card" id="card-critic">
+    <div class="agent-header">
+      <div class="agent-icon icon-critic">CRT</div>
+      <span class="agent-name">Critic</span>
+      <div class="dot"></div>
+    </div>
+    <div class="agent-status" id="status-critic">Waiting...</div>
+  </div>
+  <div class="agent-card" id="card-writer">
+    <div class="agent-header">
+      <div class="agent-icon icon-writer">WRT</div>
+      <span class="agent-name">Writer</span>
+      <div class="dot"></div>
+    </div>
+    <div class="agent-status" id="status-writer">Waiting...</div>
+  </div>
+</div>
+
+<div class="log" id="log"></div>
+
+<div class="report-box" id="reportBox">
+  <h2>Final Report</h2>
+  <div class="report-content" id="reportContent"></div>
+</div>
+
+<script>
+function log(msg, highlight = false) {
+  const el = document.getElementById('log');
+  const entry = document.createElement('div');
+  entry.className = 'log-entry' + (highlight ? ' highlight' : '');
+  entry.textContent = new Date().toLocaleTimeString() + '  ' + msg;
+  el.appendChild(entry);
+  el.scrollTop = el.scrollHeight;
+}
+
+function resetCards() {
+  ['planner','researcher','critic','writer'].forEach(a => {
+    document.getElementById('card-' + a).className = 'agent-card';
+    document.getElementById('status-' + a).textContent = 'Waiting...';
+  });
+  document.getElementById('reportBox').style.display = 'none';
+  document.getElementById('log').innerHTML = '';
+}
+
+function runResearch() {
+  const topic = document.getElementById('topic').value.trim();
+  if (!topic) return;
+
+  resetCards();
+  document.getElementById('runBtn').disabled = true;
+
+  log('Starting research: ' + topic, true);
+
+  fetch('/research', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ topic })
+  }).then(res => {
+    if (!res.body) {
+      document.getElementById('runBtn').disabled = false;
+      log('No response body from server');
+      return;
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    function read() {
+      reader.read().then(({ done, value }) => {
+        if (done) {
+          document.getElementById('runBtn').disabled = false;
+          return;
+        }
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const event = JSON.parse(line.slice(6));
+              handleEvent(event);
+            } catch (e) {
+              // Ignore partial/non-JSON lines.
+            }
+          }
+        }
+        read();
+      }).catch(() => {
+        document.getElementById('runBtn').disabled = false;
+      });
+    }
+    read();
+  }).catch(() => {
+    document.getElementById('runBtn').disabled = false;
+  });
+}
+
+function handleEvent(event) {
+  const { agent, status, message, report, data } = event;
+
+  if (agent === 'done') {
+    log('Research complete!', true);
+    document.getElementById('reportBox').style.display = 'block';
+    document.getElementById('reportContent').textContent = report;
+    document.getElementById('runBtn').disabled = false;
+    return;
+  }
+
+  if (agent === 'error') {
+    log('ERROR: ' + message);
+    document.getElementById('runBtn').disabled = false;
+    return;
+  }
+
+  const card = document.getElementById('card-' + agent);
+  const statusEl = document.getElementById('status-' + agent);
+
+  if (card && statusEl) {
+    card.className = 'agent-card ' + status;
+    statusEl.textContent = message;
+  }
+
+  log('[' + agent + '] ' + message, status === 'running');
+
+  if (agent === 'planner' && status === 'done' && data && statusEl) {
+    statusEl.textContent = data.slice(0, 2).join(' - ') + (data.length > 2 ? ' ...' : '');
+  }
+}
+</script>
+</body>
+</html>
