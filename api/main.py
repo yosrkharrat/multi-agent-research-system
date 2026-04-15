@@ -141,6 +141,7 @@ def run_graph_with_events(topic: str, event_queue: queue.Queue) -> None:
                 "report": "",
                 "next_agent": "",
                 "iteration": 0,
+                "_event_queue": event_queue,
             }
         )
         event_queue.put(

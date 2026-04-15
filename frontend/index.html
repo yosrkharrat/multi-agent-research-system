@@ -118,6 +118,7 @@ function resetCards() {
     document.getElementById('status-' + a).textContent = 'Waiting...';
   });
   document.getElementById('reportBox').style.display = 'none';
+  document.getElementById('reportContent').textContent = '';
   document.getElementById('log').innerHTML = '';
 }
 
@@ -175,12 +176,29 @@ function runResearch() {
 }
 
 function handleEvent(event) {
-  const { agent, status, message, report, data } = event;
+  const { agent, status, message, report, data, token } = event;
+
+  if (agent === 'writer' && status === 'streaming' && token) {
+    const reportBox = document.getElementById('reportBox');
+    const reportContent = document.getElementById('reportContent');
+    reportBox.style.display = 'block';
+    reportContent.textContent += token;
+
+    const card = document.getElementById('card-writer');
+    const statusEl = document.getElementById('status-writer');
+    if (card && statusEl) {
+      card.className = 'agent-card running';
+      statusEl.textContent = 'Streaming report...';
+    }
+    return;
+  }
 
   if (agent === 'done') {
     log('Research complete!', true);
     document.getElementById('reportBox').style.display = 'block';
-    document.getElementById('reportContent').textContent = report;
+    if (!document.getElementById('reportContent').textContent && report) {
+      document.getElementById('reportContent').textContent = report;
+    }
     document.getElementById('runBtn').disabled = false;
     return;
   }
@@ -196,10 +214,12 @@ function handleEvent(event) {
 
   if (card && statusEl) {
     card.className = 'agent-card ' + status;
-    statusEl.textContent = message;
+    statusEl.textContent = message || statusEl.textContent;
   }
 
-  log('[' + agent + '] ' + message, status === 'running');
+  if (message) {
+    log('[' + agent + '] ' + message, status === 'running');
+  }
 
   if (agent === 'planner' && status === 'done' && data && statusEl) {
     statusEl.textContent = data.slice(0, 2).join(' - ') + (data.length > 2 ? ' ...' : '');
