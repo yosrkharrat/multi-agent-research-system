@@ -1,0 +1,24 @@
+{
+  "id": "a288af17",
+  "topic": "How does quantum computing threaten modern encryption?",
+  "timestamp": "2026-04-20T14:55:53.141901",
+  "plan": [
+    "1. What are the fundamental principles and capabilities of quantum computing that make it different from classical computing?",
+    "2. How does Shor's algorithm in quantum computing potentially break RSA and other public-key encryption algorithms currently used for secure data transmission?",
+    "3. What are the current quantum key distribution (QKD) protocols, and how do they provide a more secure alternative to traditional encryption methods?",
+    "4. Are there any known post-quantum cryptography techniques that can resist attacks from large-scale quantum computers, and what is their level of maturity and implementation status?",
+    "5. What are the potential implications for modern cybersecurity infrastructure if quantum computing becomes widely available, and how can we prepare for this eventuality?"
+  ],
+  "findings_count": 5,
+  "iterations": 1,
+  "report": "## Executive Summary\nThis report explores the potential threats of quantum computing to modern encryption. Quantum computers can process complex calculations exponentially faster than classical computers, making them a significant concern for cybersecurity professionals. Shor's algorithm has the potential to break RSA and other public-key encryption algorithms, while Quantum Key Distribution (QKD) protocols offer enhanced security. Post-Quantum Cryptography (PQC) techniques are being developed to resist attacks from large-scale quantum computers.\n\n## Background\nQuantum computing utilizes principles such as superposition, entanglement, interference, and quantum gates to perform operations on data represented using quantum bits (qubits). Unlike classical computers, these properties allow quantum computers to process multiple computations simultaneously, share information instantaneously across all qubits, and solve complex problems exponentially faster. However, error correction due to decoherence is a significant challenge in quantum computing.\n\n## Key Findings\n\n### Question 1: What are the fundamental principles and capabilities of quantum computing that make it different from classical computing?\n\n* Quantum computers can process many computations at once using superposition [source](https://www.ibm.com/quantum-computing/what-is-quantum-computing/)\n* Entanglement allows quantum computers to share information instantaneously across all qubits\n* Interference allows quantum computers to solve complex problems exponentially faster than classical computers\n* Quantum gates are the building blocks of quantum circuits and take advantage of superposition, entanglement, and interference\n\n### Question 2: How does Shor's algorithm in quantum computing potentially break RSA and other public-key encryption algorithms currently used for secure data transmission?\n\n* Shor's algorithm can factor large numbers exponentially faster on a quantum computer [source](https://quantumcomputing.ibm.com/blog/shors-algorithm-explained)\n* This could potentially break the encryption of RSA keys\n\n### Question 3: What are the current quantum key distribution (QKD) protocols, and how do they provide a more secure alternative to traditional encryption methods?\n\n* BB84, E91, Six-state protocol, and MDI-QKD are current QKD protocols [source](https://en.wikipedia.org/wiki/Quantum_key_distribution)\n* These protocols offer enhanced security compared to traditional encryption methods\n* Any attempt to eavesdrop on the communication would disturb the quantum state of transmitted particles, making it detectable\n\n### Question 4: Are there any known post-quantum cryptography techniques that can resist attacks from large-scale quantum computers, and what is their level of maturity and implementation status?\n\n* PQC refers to cryptographic methods secure against quantum attacks [source](https://en.wikipedia.org/wiki/Post-quantum_cryptography)\n* Families include lattice-based, code-based, MQ, and hash-based\n* Many are being considered for standardization by organizations like NIST\n\n### Question 5: What are the potential implications for modern cybersecurity infrastructure if quantum computing becomes widely available, and how can we prepare for this eventuality?\n\n* Quantum computers can crack encryption algorithms that rely on large prime numbers\n* Quantum Key Distribution (QKD) offers secure communication\n* Cybersecurity professionals should adopt post-quantum cryptography (PQC) algorithms\n* Governments, businesses, and academic institutions should collaborate to develop PQC standards",
+  "eval": {
+    "citation_ratio": 0.22,
+    "total_citations": 4,
+    "unique_sources": 4,
+    "word_count": 452,
+    "questions_covered": 5,
+    "low_confidence_filtered": 0,
+    "passed": false
+  }
+}

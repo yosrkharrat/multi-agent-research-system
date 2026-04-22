@@ -1,6 +1,24 @@
-# Multi-Agent Research System
+Multi-Agent Research System
 
 A fully local, open-source multi-agent research orchestration system using Ollama, LangGraph, and LangChain.
+
+## Demo
+
+![Streaming UI demo](archi/streaming-demo.gif)
+
+![Architecture diagram](archi/multi_agent_research_system.svg)
+
+## How It Works
+
+The pipeline is intentionally simple to explain and easy to demo:
+
+- The **Planner** breaks the topic into 3–5 focused research questions.
+- The **Researcher** answers each question using a ReAct loop with DuckDuckGo and Wikipedia, then normalizes findings into structured source-backed notes.
+- The **Critic** checks whether the findings are specific, grounded, and sufficiently sourced, then either approves the run or sends it back for another pass.
+- The **Writer** turns the approved findings into a markdown report and streams the output token by token to the UI.
+- The **Supervisor Router** enforces the Critic→Researcher iteration cap so the system cannot loop forever.
+
+The FastAPI backend streams status updates and writer tokens over SSE, while completed runs are saved to disk so they can be reviewed later.
 
 ## Architecture Overview
 
@@ -46,26 +64,6 @@ $env:PYTHONPATH = "src"
 python main.py          # Full orchestration with detailed topic (takes ~20–30min)
 python test_quick.py    # Quick demo with simpler topic (takes ~5–10min)
 python scripts/verify_ollama.py --model mistral --attempts 3  # Verify local models work
-```
-
-## How It Works
-
-### The Multi-Agent Loop
-
-```
-Planner
-  ↓ (outputs plan: 3–5 research questions)
-Researcher (ReAct)
-  ↓ (uses tools: DuckDuckGo search, Wikipedia)
-  ↓ (outputs findings for each question)
-Critic
-  ├→ APPROVED? YES → Writer
-  └→ APPROVED? NO  → Researcher (loop back with feedback)
-       (max 2 iterations via Supervisor)
-  ↓
-Writer
-  ↓ (synthesizes findings into markdown report)
-  ╰→ END
 ```
 
 ### Key Design Patterns
@@ -163,6 +161,24 @@ Building graph...
 - **Quick test variant**: ~5–10 minutes
 - **Bottleneck**: LLM inference time on local hardware (mistral ~5–10s/inference, llama3 ~10–15s/inference)
 - **Typical Critic iteration flow**: 1–2 loops to approval (MAX_ITERATIONS=2 safety cap)
+
+## Known Limitations
+
+- **Local model quality varies**: Report quality depends on the current Ollama models and local hardware. Faster models can be less precise, while stronger models are slower.
+- **Source extraction is heuristic**: URLs are extracted from agent output and normalized, but titles may be inferred when a clean page title is not available.
+- **Citation quality still depends on upstream research**: The Writer can only cite URLs that the Researcher actually captured. If the search results are sparse, citations may be thin.
+- **Long runtimes for complex topics**: Multi-pass research and local inference can still take several minutes to produce a full report.
+- **No persistent memory layer yet**: Each run starts fresh; findings are not cached across sessions.
+
+## Evaluation
+
+The system includes a lightweight evaluation pass for each completed report:
+
+- **has_citations**: checks whether the report contains URL-style citations
+- **word_count**: counts total words in the final report
+- **questions_covered**: counts how many structured findings were included in the final synthesis
+
+This evaluation is intentionally simple. It provides a quick signal for demo visibility and future gating, but it is not a substitute for human review or a deeper rubric-based benchmark.
 
 ## Next Steps
 

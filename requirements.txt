@@ -10,3 +10,4 @@ ddgs>=9.6.1
 fastapi>=0.115.0
 uvicorn>=0.30.0
 sse-starlette>=2.1.0
+pytest>=8.0.0

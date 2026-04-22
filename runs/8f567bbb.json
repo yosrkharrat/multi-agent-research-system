@@ -1,0 +1,14 @@
+{
+  "id": "8f567bbb",
+  "topic": "demo topic",
+  "timestamp": "2026-04-20T11:12:26.462324",
+  "plan": [
+    "a"
+  ],
+  "findings_count": 1,
+  "iterations": 1,
+  "report": "hello",
+  "eval": {
+    "passed": true
+  }
+}

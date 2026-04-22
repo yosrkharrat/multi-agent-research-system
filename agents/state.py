@@ -1,15 +1,5 @@
-from typing import Annotated, NotRequired, TypedDict
+"""Compatibility exports for legacy `agents.state` imports."""
 
-from langgraph.graph.message import add_messages
+from src.agents.state import AgentState
 
-
-class AgentState(TypedDict):
-    messages: Annotated[list, add_messages]
-    topic: str
-    plan: list[str]
-    findings: list[dict[str, object]]
-    critique: str
-    report: str
-    next_agent: str
-    iteration: int
-    _event_queue: NotRequired[object]
+__all__ = ["AgentState"]

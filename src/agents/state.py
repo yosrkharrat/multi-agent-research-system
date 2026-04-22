@@ -1,4 +1,4 @@
-from typing import Annotated, NotRequired, TypedDict
+from typing import Annotated, TypedDict
 
 from langgraph.graph.message import add_messages
 
@@ -12,4 +12,3 @@ class AgentState(TypedDict):
     report: str
     next_agent: str
     iteration: int
-    _event_queue: NotRequired[object]

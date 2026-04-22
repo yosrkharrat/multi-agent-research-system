@@ -199,6 +199,18 @@ function handleEvent(event) {
     if (!document.getElementById('reportContent').textContent && report) {
       document.getElementById('reportContent').textContent = report;
     }
+    if (event.evaluation) {
+      log(
+        'Eval: passed=' + event.evaluation.passed +
+        ', citation_ratio=' + event.evaluation.citation_ratio +
+        ', total_citations=' + event.evaluation.total_citations +
+        ', unique_sources=' + event.evaluation.unique_sources +
+        ', words=' + event.evaluation.word_count +
+        ', questions=' + event.evaluation.questions_covered +
+        ', low_conf_filtered=' + event.evaluation.low_confidence_filtered,
+        true
+      );
+    }
     document.getElementById('runBtn').disabled = false;
     return;
   }
