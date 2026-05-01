@@ -1,0 +1,24 @@
+{
+  "id": "15b72a07",
+  "topic": "What are the key breakthroughs in quantum computing?",
+  "timestamp": "2026-05-01T21:30:15.276612",
+  "plan": [
+    "1. What significant milestones and advancements have been achieved in the development of quantum computing hardware over the past decade?",
+    "2. How has quantum algorithm design evolved to take advantage of the unique properties of quantum systems, and what are some notable examples of these algorithms?",
+    "3. What challenges remain in scaling up quantum computers to a point where they can outperform classical computers for practical applications, and how are researchers addressing these challenges?"
+  ],
+  "findings_count": 3,
+  "iterations": 1,
+  "report": "Here is the report:\n\n## Executive Summary\nQuantum computing has made significant progress over the past decade, with breakthroughs in hardware development, algorithm design, and error correction. Despite these advancements, challenges remain in scaling up quantum computers to outperform classical computers for practical applications.\n\n## Background\nQuantum computing is a field that combines computer science, physics, and engineering to develop new types of computers that can solve complex problems exponentially faster than classical computers.\n\n## Key Findings\n\n### Hardware Development\nOver the past decade, significant milestones have been achieved in quantum computing hardware development. [1](https://duckduckgo.com/search?q=Quantum%20computing%20hardware%20advancements%20over%20the%20past%20decade) In 2010, IBM demonstrated a two-qubit quantum processor, marking the first time a multi-qubit quantum computer was built. Other notable advancements include Google's 512-qubit quantum annealing computer in 2012 and IBM's 17-qubit universal quantum computer in 2016.\n\n### Algorithm Design\nThe evolution of quantum algorithm design has been driven by the unique properties of quantum systems, particularly superposition and entanglement. [2](https://duckduckgo.com/search?q=evolution%20of%20quantum%20algorithm%20design) One of the earliest and most famous examples of a quantum algorithm is Shor's algorithm, developed in 1994 by Peter Shor. It can factor large numbers exponentially faster than any known classical algorithm.\n\n### Error Correction\nDespite these advancements, challenges remain in scaling up quantum computers to outperform classical computers for practical applications. [3](https://duckduckgo.com/search?q=What%20challenges%20remain%20in%20scaling%20up%20quantum%20computers%20to%20a%20point%20where%20they%20can%20outperform%20classical%20computers%20for%20practical%20applications) Quantum decoherence, quantum error correction, and scalability are significant challenges that need to be addressed.\n\n## Evidence & Examples\n\n### Hardware Development\n* 2010: IBM demonstrates a two-qubit quantum processor.\n* 2012: Google, NASA, and D-Wave Systems collaborate to build a 512-qubit quantum annealing computer.\n* 2014: IBM unveils a five-qubit quantum processor.\n* 2016: IBM announces the development of a 17-qubit universal quantum computer.\n\n### Algorithm Design\n* Shor's algorithm (1994): can factor large numbers exponentially faster than any known classical algorithm.\n* Grover's algorithm (1996): can search an unsorted database quadratically faster than a classical computer.\n\n## Open Questions\nWhat is still uncertain is how these advancements will translate to practical applications and what the timeline will be for quantum computers to outperform classical computers in those areas.\n\n## Sources\n[1](https://duckduckgo.com/search?q=Quantum%20computing%20hardware%20advancements%20over%20the%20past%20decade)\n[2](https://duckduckgo.com/search?q=evolution%20of%20quantum%20algorithm%20design)\n[3](https://duckduckgo.com/search?q=What%20challenges%20remain%20in%20scaling%20up%20quantum%20computers%20to%20a%20point%20where%20they%20can%20outperform%20classical%20computers%20for%20practical%20applications)",
+  "eval": {
+    "word_count": 345,
+    "questions_covered": 3,
+    "questions_total": 3,
+    "coverage_pct": 1.0,
+    "citation_count": 3,
+    "citation_density": 4.35,
+    "avg_sentence_length": 18.2,
+    "paragraph_count": 12,
+    "overall": 0.973
+  }
+}

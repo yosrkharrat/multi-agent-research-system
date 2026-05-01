@@ -1,0 +1,24 @@
+{
+  "id": "9a685a92",
+  "topic": "What are the key breakthroughs in quantum computing?",
+  "timestamp": "2026-05-01T21:39:43.020298",
+  "plan": [
+    "1. What significant milestones and advancements have been achieved in the development of quantum computing hardware over the past decade?",
+    "2. How have quantum algorithms contributed to solving complex problems more efficiently than classical computers, and what are some notable examples of their application?",
+    "3. What challenges remain in scaling up quantum computing technology for practical use, and how are researchers addressing these obstacles to further progress?"
+  ],
+  "findings_count": 3,
+  "iterations": 1,
+  "report": "## Executive Summary\nThis report summarizes the key breakthroughs in quantum computing, highlighting significant milestones and advancements in hardware development over the past decade. Additionally, it explores how quantum algorithms have contributed to solving complex problems more efficiently than classical computers.\n\n## Background\nQuantum computing is a rapidly evolving field that leverages the principles of quantum mechanics to process information. Unlike classical computers that use bits (0s and 1s) to perform calculations, quantum computers use quantum bits or qubits, which can exist in multiple states simultaneously due to a phenomenon known as superposition.\n\n## Key Findings\n\n### Hardware Advancements\nOver the past decade, significant milestones and advancements in quantum computing hardware have been achieved. In [2008](https://duckduckgo.com/?q=Quantum+Computing+Hardware+Advancements+Last+Decade), IBM demonstrated a two-qubit quantum processor, marking the first time a quantum computer was used for calculations that classical computers could not efficiently perform. In [2012](https://duckduckgo.com/?q=Quantum+Computing+Hardware+Advancements+Last+Decade), Google and NASA formed the Quantum Artificial Intelligence Lab (QuAIL) with the goal of building a large-scale quantum computer for practical applications. In [2014](https://duckduckgo.com/?q=Quantum+Computing+Hardware+Advancements+Last+Decade), IBM announced the development of a five-qubit quantum processor.\n\n### Quantum Algorithms\nThe contributions of quantum algorithms in solving complex problems more efficiently than classical computers are significant. One of the most famous quantum algorithms is Shor's algorithm, which can factor large numbers exponentially faster than any known classical algorithm [1]. Factoring large numbers has significant implications for cryptography, as many encryption methods rely on the difficulty of factoring large composite numbers. If a practical quantum computer were to be built, it could potentially break many widely used encryption schemes, posing a threat to internet security.\n\nAnother important quantum algorithm is Grover's algorithm, which can search an unsorted database quadratically faster than classical algorithms [1]. This speedup could have numerous applications, such as optimizing supply chains, drug discovery, and artificial intelligence.\n\n## Evidence & Examples\n\n### Hardware Advancements\n* IBM demonstrated a two-qubit quantum processor in 2008.\n* Google and NASA formed QuAIL in 2012.\n* IBM developed a five-qubit quantum processor in 2014.\n\n### Quantum Algorithms\n* Shor's algorithm can factor large numbers exponentially faster than any known classical algorithm [1].\n* Grover's algorithm can search an unsorted database quadratically faster than classical algorithms [1].\n\n## Open Questions\nWhat is still uncertain is the scalability and practicality of quantum computing, as well as its potential impact on internet security.\n\n## Sources\nhttps://duckduckgo.com/?q=Quantum+Computing+Hardware+Advancements+Last+Decade",
+  "eval": {
+    "word_count": 389,
+    "questions_covered": 2,
+    "questions_total": 3,
+    "coverage_pct": 0.667,
+    "citation_count": 2,
+    "citation_density": 2.57,
+    "avg_sentence_length": 18.5,
+    "paragraph_count": 11,
+    "overall": 0.785
+  }
+}
