@@ -39,6 +39,12 @@ The FastAPI backend streams status updates and writer tokens over SSE, while com
 - **Writer**: Synthesizes findings into structured markdown report
 - **Supervisor Router**: Enforces iteration caps and manages Critic→Researcher feedback loop
 
+**Phase 4: Enhanced Persistence & Evaluation** ✅
+- **SqliteSaver Checkpointing**: Thread-scoped checkpointing for resumable research sessions
+- **ChromaDB Semantic Memory**: MMR-retrieval-based vector store for cross-session fact reuse
+- **Pydantic Structured Outputs**: Validated schema for findings, citations, and evaluations
+- **Rubric-Based Evaluation**: Comprehensive scoring for citation quality, coverage, and coherence
+
 ## Setup & Installation
 
 ### 1) Install Ollama and pull models
@@ -165,10 +171,8 @@ Building graph...
 ## Known Limitations
 
 - **Local model quality varies**: Report quality depends on the current Ollama models and local hardware. Faster models can be less precise, while stronger models are slower.
-- **Source extraction is heuristic**: URLs are extracted from agent output and normalized, but titles may be inferred when a clean page title is not available.
 - **Citation quality still depends on upstream research**: The Writer can only cite URLs that the Researcher actually captured. If the search results are sparse, citations may be thin.
 - **Long runtimes for complex topics**: Multi-pass research and local inference can still take several minutes to produce a full report.
-- **No persistent memory layer yet**: Each run starts fresh; findings are not cached across sessions.
 
 ## Evaluation
 

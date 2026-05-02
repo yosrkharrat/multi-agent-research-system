@@ -31,6 +31,9 @@ _JUNK_DOMAINS = {
     "localhost",
 }
 
+# Pattern to extract URLs inside JSON fields like {"url": "https://..."}
+URL_IN_JSON = re.compile(r'"(?:url|href|link)"\s*:\s*"(https?://[^"]+)"')
+
 
 def _is_real_url(url: str) -> bool:
     """True only if the URL is a real page, not a search engine query."""
@@ -52,6 +55,11 @@ def extract_urls(text: str) -> list[str]:
         if url and url not in seen and _is_real_url(url):
             seen.add(url)
             result.append(url)
+    # Also catch URLs inside JSON fields like {"url": "https://..."}
+    for match in URL_IN_JSON.findall(text):
+        if match and match not in seen and _is_real_url(match):
+            seen.add(match)
+            result.append(match)
     return result
 
 
@@ -185,9 +193,9 @@ def create_researcher_node(config: PipelineConfig, on_agent_status=None):
 
             # ── 1. Run the ReAct agent ─────────────────────────────────────
             prompt = (
-                "You are a research assistant. Use the search tool to find "
-                "information, then fetch the most relevant result page to get "
-                "full details. Return a factual summary with specific facts.\n\n"
+                "You are a research assistant. ALWAYS start with the wikipedia tool to find "
+                "factual information. If Wikipedia has no article, use duckduckgo_search. "
+                "Return a factual summary citing the exact URL from the tool result.\n\n"
                 f"Question: {question}"
             )
             try:
@@ -241,7 +249,7 @@ Return JSON only — no explanation, no markdown fences — with exactly this sh
     "summary": "one concise factual paragraph, 3-5 sentences, grounded in the notes",
     "key_facts": ["specific fact 1", "specific fact 2", "specific fact 3"],
     "sources": [
-        {{"url": "https://example.com/real-page", "title": "short title"}}
+        {{"url": "URL from the notes above", "title": "descriptive title"}}
     ]
 }}
 
