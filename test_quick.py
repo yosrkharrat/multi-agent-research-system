@@ -1,6 +1,7 @@
 """Phase 3 quick test: demonstrates full orchestration with smaller scope."""
 
-from agents.graph import build_graph
+import uuid
+from agents.graph import build_graph, make_config
 from persistence import save_run
 from config import PipelineConfig
 
@@ -14,6 +15,9 @@ def test_quick() -> None:
     print("\n[Quick test] Running research on: 'What is machine learning?'")
     print("=" * 80)
 
+    thread_id = str(uuid.uuid4())
+    config = make_config(thread_id)
+
     result = graph.invoke(
         {
             "messages": [],
@@ -24,7 +28,8 @@ def test_quick() -> None:
             "report": "",
             "next_agent": "",
             "iteration": 0,
-        }
+        },
+        config=config,
     )
 
     result["eval_scores"] = result.get("eval_scores", {})
